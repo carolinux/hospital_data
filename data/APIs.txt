@@ -1,0 +1,2 @@
+https://data.medicare.gov/resource/rmgi-5fhi.json
+https://data.medicare.gov/resource/rbry-mqwu.json
