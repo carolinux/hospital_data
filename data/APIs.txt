@@ -1,2 +1,7 @@
-https://data.medicare.gov/resource/rmgi-5fhi.json
-https://data.medicare.gov/resource/rbry-mqwu.json
+. https://data.medicare.gov/resource/rmgi-5fhi.json # Patient Survey (HCAHPS) - Hospital
+. https://data.medicare.gov/resource/rbry-mqwu.json # Hospital General Information
+. https://data.medicare.gov/resource/kac9-a9fp.json # Hospital Readmissions Reduction Program
+. https://data.medicare.gov/resource/r32h-32z5.json # Complications - Hospital
+. https://data.medicare.gov/resource/ppaw-hhm5.json # Healthcare Associated Infections - Hospital
+. https://data.medicare.gov/resource/3z8n-wcgr.json # Timely and Effective Care - Hospital
+. https://data.medicare.gov/resource/9i85-rqbi.json # Medicare Hospital Spending Per Patient - Hospital
