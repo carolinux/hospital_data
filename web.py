@@ -39,9 +39,13 @@ def hospital_search():
         regular_questions = survey_of_hospital[(survey_of_hospital[question_col]!=overall_rating_question) &
                                              (survey_of_hospital[question_col]!='summary_star_rating') ]
         summary_question = survey_of_hospital[survey_of_hospital[question_col]==overall_rating_question]
+        # score_data["Complications"].ix[provider_id].measure_name
+        for score_name, data in score_data.items():
+            try:
+                data = data.ix[provider_id]
+            except KeyError:
+                print ("Provider id {} has not data in {}".format(provider_id, score_name))
         summary_question[question_col] = summary_question[question_col].apply(lambda x:x.upper())
-        #return summary + "<br>"+ survey_of_hospital.to_html()
-        #return "<b>"+summary+"<b></br>"+regular_questions.to_html()
         d = hospitals[hospitals["provider_id"] == provider_id].iloc[0] # the data for this hospital
         longitude = d["location"]["coordinates"][0]
         latitude = d["location"]["coordinates"][1]
@@ -60,8 +64,8 @@ def autocomplete():
 
 def get_hospital_data_from_web(data_id, do_filter=False):
     resource_url = "https://data.medicare.gov/resource/{}.json".format(data_id)
-    #token = "bjp8KrRvAPtuf809u1UXnI0Z8" # test token
-    token = "UKABSmwwYK2lyRyiKYHDn2V9c" # adelard's token
+    token = "bjp8KrRvAPtuf809u1UXnI0Z8" # test token
+    #token = "UKABSmwwYK2lyRyiKYHDn2V9c" # adelard's token
     print ("querying for hospital data")
     if do_filter:
         # get only some data
@@ -71,11 +75,24 @@ def get_hospital_data_from_web(data_id, do_filter=False):
     df = pd.DataFrame.from_records(results)
     return df
 
-
-print("getting hospital data")
+score_forms = {"Readmissions_Reduction": "kac9-a9fp", # Hospital Readmissions Reduction Program
+"Complications": "r32h-32z5", # Complications - Hospital,
+"Healthcare_Associated_Infections": "ppaw-hhm5", # Healthcare Associated Infections - Hospital
+"Timely and Effective Care": "3z8n-wcgr", # Timely and Effective Care - Hospital
+"Medicare Spending Per Patient": "9i85-rqbi" # Medicare Hospital Spending Per Patient - Hospital
+}
+get_less_data = True
 HCAPS_ID = "dgck-syfz"
 HOSPITAL_DATA_ID = "rbry-mqwu"
-get_less_data = True
+
+score_data = {}
+for score_type, form_id in score_forms.items():
+    data = get_hospital_data_from_web(form_id, do_filter=get_less_data)
+    data = data.set_index("provider_id", drop=False)
+    score_data[score_type] = data
+       
+
+print("getting hospital data")
 hospitals = get_hospital_data_from_web(HOSPITAL_DATA_ID, do_filter=get_less_data)
 unique_names = get_unique_hospital_names(hospitals)
 print ("getting survey data")
@@ -91,4 +108,4 @@ print ("loaded everything")
 
 if __name__ == '__main__':
     print ("starting webserver")
-    app.run(port=5000, debug=True)
+    app.run(port=5000, debug=True, processes=1)
