@@ -42,7 +42,15 @@ def hospital_search():
         summary_question[question_col] = summary_question[question_col].apply(lambda x:x.upper())
         #return summary + "<br>"+ survey_of_hospital.to_html()
         #return "<b>"+summary+"<b></br>"+regular_questions.to_html()
-        return pd.concat([regular_questions, summary_question]).to_html(index=False)
+        d = hospitals[hospitals["provider_id"] == provider_id].iloc[0] # the data for this hospital
+        longitude = d["location"]["coordinates"][0]
+        latitude = d["location"]["coordinates"][1]
+        hospital_summary = "<h2>Hospital Summary</h2><p>{} {} : {} </br> {}, {}</p>".format(hospital_name, 
+                d["address"], d["phone_number"],
+                d["hospital_type"], d["hospital_ownership"])
+        return render_template("map.html", summary=hospital_summary, 
+                rating=pd.concat([regular_questions, summary_question]).to_html(index=False), longitude=longitude,
+                latitude=latitude)
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
@@ -50,7 +58,7 @@ def autocomplete():
     results = list(filter(lambda x: x.lower().startswith(search_q), unique_names))
     return jsonify(matching_results=results)
 
-def get_hospital_data_from_web(data_id,do_filter=False):
+def get_hospital_data_from_web(data_id, do_filter=False):
     resource_url = "https://data.medicare.gov/resource/{}.json".format(data_id)
     #token = "bjp8KrRvAPtuf809u1UXnI0Z8" # test token
     token = "UKABSmwwYK2lyRyiKYHDn2V9c" # adelard's token
@@ -73,7 +81,7 @@ unique_names = get_unique_hospital_names(hospitals)
 print ("getting survey data")
 survey = get_hospital_data_from_web(HCAPS_ID, do_filter=get_less_data)
 overall_rating_question = 'Overall hospital rating - star rating'
-rating_col = "patient_survey_star_rating"
+rating_col = "patient_survey_star_rating" # before it was like Patient Survey Star Rating
 question_col = 'hcahps_question'
 print ("getting ratings")
 survey_overall = survey[survey[question_col]==overall_rating_question] # select only the question of 'overall hospital rating'
