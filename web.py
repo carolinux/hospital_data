@@ -1,4 +1,6 @@
+import json
 import os
+import requests
 
 from flask import Flask, request, jsonify, render_template
 import pandas as pd
@@ -8,7 +10,7 @@ app = Flask(__name__) # this creates an instance of the flask app
 
 def get_unique_hospital_names(hospitals_df): # this is just a regular function
     # add provider name to the hospital name
-    unique_names = hospitals_df.apply(lambda x: x["Hospital Name"]+" ("+str(x["Provider ID"])+")" , axis=1).unique()
+    unique_names = hospitals_df.apply(lambda x: x["hospital_name"]+" ("+str(x["provider_id"])+")" , axis=1).unique()
     return sorted(unique_names)
 
 #@app.route('/')
@@ -26,16 +28,16 @@ def hospital_search():
         # remove the (number) at the end
         last_idx = hospital_name_with_id.rfind("(")
         hospital_name = hospital_name_with_id[:last_idx].strip()
-        provider_id = int(hospital_name_with_id[last_idx+1: -1])
+        provider_id = str(hospital_name_with_id[last_idx+1: -1])
         rating = overall_ratings.ix[provider_id]
         summary = "<u>Overall Hospital Rating</u>  for {}: {}".format(hospital_name_with_id, rating)
-        survey_of_hospital = survey[survey["Provider ID"] == provider_id][[question_col, rating_col]]
+        survey_of_hospital = survey[survey["provider_id"] == provider_id][[question_col, rating_col]]
         survey_of_hospital = survey_of_hospital[survey_of_hospital[rating_col].isin(['1','2','3','4','5'])]
         survey_of_hospital[question_col] = survey_of_hospital[question_col].apply(lambda x: x.split(" - star")[0])
         survey_of_hospital.columns = [question_col, rating_col+" ( 1 to 5, higher is better)"]
 
         regular_questions = survey_of_hospital[(survey_of_hospital[question_col]!=overall_rating_question) &
-                                             (survey_of_hospital[question_col]!='Summary star rating') ]
+                                             (survey_of_hospital[question_col]!='summary_star_rating') ]
         summary_question = survey_of_hospital[survey_of_hospital[question_col]==overall_rating_question]
         summary_question[question_col] = summary_question[question_col].apply(lambda x:x.upper())
         #return summary + "<br>"+ survey_of_hospital.to_html()
@@ -45,22 +47,37 @@ def hospital_search():
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
     search_q = request.args.get('q').lower()
-    results = filter(lambda x: x.lower().startswith(search_q), unique_names)
+    results = list(filter(lambda x: x.lower().startswith(search_q), unique_names))
     return jsonify(matching_results=results)
 
-print ("reading hospital data")
-hospitals = pd.read_csv("data/HCAHPS - Hospital.csv", engine="python")
+def get_hospital_data_from_web(data_id,do_filter=False):
+    resource_url = "https://data.medicare.gov/resource/rmgi-5fhi.json"
+    token = "bjp8KrRvAPtuf809u1UXnI0Z8" # TODO: replace with our own token, this is a test one from the website
+    print ("querying for hospital data")
+    if do_filter:
+        # get only some data
+        resource_url +="?$where=starts_with(hospital_name,'SOUTH')"
+    resp = requests.get(resource_url, headers={"X-App-Token": token})
+    results = json.loads(resp.text)
+    df = pd.DataFrame.from_records(results)
+    return df
+
+
+print("getting hospital data")
+HCAPS_ID = "dgck-syfz"
+HOSPITAL_DATA_ID = "xubh-q36u"
+get_less_data = True
+hospitals = get_hospital_data_from_web(HOSPITAL_DATA_ID, do_filter=get_less_data)
 unique_names = get_unique_hospital_names(hospitals)
-survey_fn = os.path.join('data', 'HCAHPS - Hospital.csv')
-print ("reading survey data")
-survey = pd.read_csv(survey_fn, engine="python")
+print ("getting survey data")
+survey = get_hospital_data_from_web(HCAPS_ID, do_filter=get_less_data)
 overall_rating_question = 'Overall hospital rating - star rating'
-rating_col = "Patient Survey Star Rating"
-question_col = 'HCAHPS Question'
+rating_col = "patient_survey_star_rating"
+question_col = 'hcahps_question'
 print ("getting ratings")
 survey_overall = survey[survey[question_col]==overall_rating_question] # select only the question of 'overall hospital rating'
 # find the rating per provider id
-overall_ratings = survey_overall.groupby("Provider ID")[rating_col].min()
+overall_ratings = survey_overall.groupby("provider_id")[rating_col].min()
 print ("loaded everything")
 
 if __name__ == '__main__':
