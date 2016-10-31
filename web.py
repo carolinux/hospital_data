@@ -51,8 +51,9 @@ def autocomplete():
     return jsonify(matching_results=results)
 
 def get_hospital_data_from_web(data_id,do_filter=False):
-    resource_url = "https://data.medicare.gov/resource/rmgi-5fhi.json"
-    token = "bjp8KrRvAPtuf809u1UXnI0Z8" # TODO: replace with our own token, this is a test one from the website
+    resource_url = "https://data.medicare.gov/resource/{}.json".format(data_id)
+    #token = "bjp8KrRvAPtuf809u1UXnI0Z8" # test token
+    token = "UKABSmwwYK2lyRyiKYHDn2V9c" # adelard's token
     print ("querying for hospital data")
     if do_filter:
         # get only some data
@@ -65,7 +66,7 @@ def get_hospital_data_from_web(data_id,do_filter=False):
 
 print("getting hospital data")
 HCAPS_ID = "dgck-syfz"
-HOSPITAL_DATA_ID = "xubh-q36u"
+HOSPITAL_DATA_ID = "rbry-mqwu"
 get_less_data = True
 hospitals = get_hospital_data_from_web(HOSPITAL_DATA_ID, do_filter=get_less_data)
 unique_names = get_unique_hospital_names(hospitals)
