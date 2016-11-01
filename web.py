@@ -13,10 +13,27 @@ def get_unique_hospital_names(hospitals_df): # this is just a regular function
     unique_names = hospitals_df.apply(lambda x: x["hospital_name"]+" ("+str(x["provider_id"])+")" , axis=1).unique()
     return sorted(unique_names)
 
-#@app.route('/')
-#def hello():
-#    return "Hello world"
-    
+def to_capitals(pythoncase_str):
+    return pythoncase_str.replace("_"," ").capitalize()
+
+
+def get_measure_scores(provider_id):
+    measures = []
+    for form_name, data in score_data.items():
+        if "Readmissions" in form_name:
+            continue
+        try:
+            data = data.ix[provider_id]
+            if isinstance(data, pd.Series):
+                measures.append((form_name + ": " + data["measure_name"], data["score"]))
+            else:
+                for _, row in data.iterrows():
+                    measures.append((form_name + ":" + row["measure_name"], row["score"]))
+        except KeyError:
+            print ("Provider id {} has not data in {}".format(provider_id, form_name))
+    return measures
+
+
 @app.route('/search', methods=['GET', 'POST']) # when I go to the url/search, return whatever this function returns
 def hospital_search():
     if request.method == "GET":
@@ -39,22 +56,20 @@ def hospital_search():
         regular_questions = survey_of_hospital[(survey_of_hospital[question_col]!=overall_rating_question) &
                                              (survey_of_hospital[question_col]!='summary_star_rating') ]
         summary_question = survey_of_hospital[survey_of_hospital[question_col]==overall_rating_question]
-        # score_data["Complications"].ix[provider_id].measure_name
-        for score_name, data in score_data.items():
-            try:
-                data = data.ix[provider_id]
-            except KeyError:
-                print ("Provider id {} has not data in {}".format(provider_id, score_name))
+        # handle measures (TODO: abstract to function)
+        measures = get_measure_scores(provider_id)
+
         summary_question[question_col] = summary_question[question_col].apply(lambda x:x.upper())
+        ratings = pd.concat([regular_questions, summary_question])
+        ratings.columns = map(to_capitals, ratings.columns)
+
         d = hospitals[hospitals["provider_id"] == provider_id].iloc[0] # the data for this hospital
         longitude = d["location"]["coordinates"][0]
         latitude = d["location"]["coordinates"][1]
-        hospital_summary = "<h2>Hospital Summary</h2><p>{} {} : {} </br> {}, {}</p>".format(hospital_name, 
-                d["address"], d["phone_number"],
-                d["hospital_type"], d["hospital_ownership"])
-        return render_template("map.html", summary=hospital_summary, 
-                rating=pd.concat([regular_questions, summary_question]).to_html(index=False), longitude=longitude,
-                latitude=latitude)
+
+        return render_template("map.html", summary_data=d, 
+                ratings=ratings, longitude=longitude,
+                latitude=latitude, measures=measures)
 
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():

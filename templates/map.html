@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+      <link type="text/css" rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
     <style>
 #header {
     width: 100%;
@@ -8,13 +9,12 @@
 }
 
 #container {
-    width: 900px;
-    margin: auto;
+    width: 100%;
 }
 #first {
-    width: 400px;
+    width: 600px;
     float: left;
-    height: 300px;
+ /*   height: 300px;*/
 }
 #map {
     width: 400px;
@@ -27,14 +27,16 @@
     </style>
   </head>
   <body>
-    <h3>Hospital Results</h3>
-        {{summary |safe }}
-    <div id="map"></div>
+      <h2>Hospital Summary</h2>
+      {{summary_data["hospital_name"]}}, {{summary_data["address"]}} : {{summary_data["phone_number"]}}
+      <br>
+      {{summary_data["hospital_type"]}}, {{summary_data["hospital_ownership"]}}
+
     <script>
       function initMap() {
           var uluru = {lat: {{latitude}}, lng:{{longitude}}};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 16,
+          zoom: 15,
           center: uluru
         });
         var marker = new google.maps.Marker({
@@ -49,8 +51,34 @@
     <div id="header"></div>
     <div id="container">
             <div id="first">
+    <table border=1 id="hor-minimalist-a">
+        <thead>
+            <td><b>HCAHPS Question</b></td>
+            <td><b>{{ratings.columns[1]}}</b></td>
+        </thead>
+        {% for index, row in ratings.iterrows() %}
+        <tr>
+            <td>{{row[ratings.columns[0]]}}</td>
+            <td>{{row[ratings.columns[1]]}}</td>
+
+        {% endfor %}
+
+    </table>
             
-    {{ rating |safe }}
+    <br>
+    <table border=1 id="hor-minimalist-a">
+        <thead>
+            <td><b>Measure Name</b></td>
+            <td><b>Score</b></td>
+        </thead>
+        {% for measure_name,score in measures %}
+        <tr>
+            <td>{{measure_name}}</td>
+            <td>{{score}}</td>
+
+        {% endfor %}
+
+    </table>
             </div>
                 <div id="map">
                 
