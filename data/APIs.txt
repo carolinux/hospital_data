@@ -5,3 +5,5 @@
 . https://data.medicare.gov/resource/ppaw-hhm5.json # Healthcare Associated Infections - Hospital
 . https://data.medicare.gov/resource/3z8n-wcgr.json # Timely and Effective Care - Hospital
 . https://data.medicare.gov/resource/9i85-rqbi.json # Medicare Hospital Spending Per Patient - Hospital
+. https://data.medicare.gov/resource/72af-b2t9.json # Outpatient Imaging Efficiency - Hospital
+. https://data.medicare.gov/resource/4byc-r9e3.json # Use of Medical Imaging Outpatient Procedures - Number of Medicare Patients - Hospital
