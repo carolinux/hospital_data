@@ -25,6 +25,7 @@
 . NURSING HOME
 . ##################
 . https://data.medicare.gov/resource/eaa9-qkxm.json # Ownership
+. https://data.medicare.gov/resource/b27b-2uc7.json # Provider Info 
 . https://data.medicare.gov/resource/crzz-t9dk.json # Measures of Rehospitalization, Emergency Room Visit, and Community Discharge 
 . https://data.medicare.gov/resource/adup-8cbx.json # MDS Quality Measures 
 . https://data.medicare.gov/resource/ikq5-jt9b.json # Deficiencies 
@@ -33,4 +34,6 @@
 . https://data.medicare.gov/resource/np3k-uatv.json # Inspection Cycle 1 Deficiencies 
 . https://data.medicare.gov/resource/3j8m-gmpk.json # Inspection Cycle 2 Deficiencies 
 . https://data.medicare.gov/resource/7gue-kitf.json # Inspection Cycle 3 Deficiencies 
+. https://data.medicare.gov/resource/im9k-ugyp.json # Penalties 
+. https://data.medicare.gov/resource/ax9d-vq6k.json # Star Ratings 
 
