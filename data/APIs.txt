@@ -1,3 +1,7 @@
+. ##################
+. HOSPITAL
+. ##################
+
 . https://data.medicare.gov/resource/rmgi-5fhi.json # Patient Survey (HCAHPS) - Hospital
 . https://data.medicare.gov/resource/rbry-mqwu.json # Hospital General Information
 . https://data.medicare.gov/resource/kac9-a9fp.json # Hospital Readmissions Reduction Program
@@ -7,3 +11,26 @@
 . https://data.medicare.gov/resource/9i85-rqbi.json # Medicare Hospital Spending Per Patient - Hospital
 . https://data.medicare.gov/resource/72af-b2t9.json # Outpatient Imaging Efficiency - Hospital
 . https://data.medicare.gov/resource/4byc-r9e3.json # Use of Medical Imaging Outpatient Procedures - Number of Medicare Patients - Hospital
+
+. ##################
+. PHYSICIAN
+. ##################
+
+. https://data.medicare.gov/resource/c8qv-268j.json # Physician compare
+. https://data.medicare.gov/resource/th32-f6tf.json # Physician Compare 2014 Group Practice Public Reporting - Clinical Quality Of Care 
+. https://data.medicare.gov/resource/rgy3-2esf.json # Physician Compare 2014 Group Practice Public Reporting - Patient Experience 
+. https://data.medicare.gov/resource/86i9-xkhr.json # Physician Compare 2014 Individual EP Public Reporting - Clinical Quality Of Care 
+
+. ##################
+. NURSING HOME
+. ##################
+. https://data.medicare.gov/resource/eaa9-qkxm.json # Ownership
+. https://data.medicare.gov/resource/crzz-t9dk.json # Measures of Rehospitalization, Emergency Room Visit, and Community Discharge 
+. https://data.medicare.gov/resource/adup-8cbx.json # MDS Quality Measures 
+. https://data.medicare.gov/resource/ikq5-jt9b.json # Deficiencies 
+. https://data.medicare.gov/resource/npft-b6wt.json # Health Deficiencies 
+. https://data.medicare.gov/resource/xzaa-wcq6.json # Fire Safety Deficiencies 
+. https://data.medicare.gov/resource/np3k-uatv.json # Inspection Cycle 1 Deficiencies 
+. https://data.medicare.gov/resource/3j8m-gmpk.json # Inspection Cycle 2 Deficiencies 
+. https://data.medicare.gov/resource/7gue-kitf.json # Inspection Cycle 3 Deficiencies 
+
