@@ -25,6 +25,7 @@
     clear: both;
 }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </head>
   <body>
       <h2>Hospital Summary</h2>
@@ -53,15 +54,23 @@
             <div id="first">
     <table border=1 id="hor-minimalist-a">
         <thead>
-            <td><b>HCAHPS Question</b></td>
+            <td style="width:170px"><b>HCAHPS Question</b></td>
             <td><b>{{ratings.columns[1]}}</b></td>
         </thead>
         {% for index, row in ratings.iterrows() %}
-        <tr>
-            <td>{{row[ratings.columns[0]]}}</td>
-            <td>{{row[ratings.columns[1]]}}</td>
+            {% if loop.index == 1 %}
+            <tr class="rating">
+            {% else %}
+            <tr class="secondary_rating" style="display:none">
+            {% endif %}
+                <td style="width:170px">{{row[ratings.columns[0]]}}</td>
+                <td>{{row[ratings.columns[1]]}}</td>
+            </tr>
 
         {% endfor %}
+        <tr>
+            <button id="toggle_secondary_ratings">Toggle Detailed Ratings</button>
+        </tr>
 
     </table>
             
@@ -86,5 +95,12 @@
 
                     <div id="clear"></div>
     </div>
+
+    <script type="text/javascript" >
+
+    $("#toggle_secondary_ratings").on("click", function() {
+            $('.secondary_rating').toggle();
+    });
+    </script>
   </body>
 </html>

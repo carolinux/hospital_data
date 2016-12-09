@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fe7dd53-3518-4dc7-9f84-62a897247dcd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/hospital_data.iml" afterPath="$PROJECT_DIR$/.idea/hospital_data.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web.py" afterPath="$PROJECT_DIR$/web.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/map.html" afterPath="$PROJECT_DIR$/templates/map.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hospital_data.iws" />
@@ -32,9 +29,9 @@
       <file leaf-file-name="web.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.4596623" vertical-offset="493" max-vertical-offset="1026">
+            <state line="43" column="0" selection-start="1655" selection-end="1655" vertical-scroll-proportion="0.4596623" vertical-offset="529" max-vertical-offset="1188">
               <folding>
-                <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -43,7 +40,7 @@
       <file leaf-file-name="data.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="0" selection-start="4722" selection-end="4722" vertical-scroll-proportion="0.0" vertical-offset="1401" max-vertical-offset="2286">
+            <state line="99" column="0" selection-start="4923" selection-end="4923" vertical-scroll-proportion="0.0" vertical-offset="1455" max-vertical-offset="2340">
               <folding>
                 <element signature="e#26#37#0" expanded="true" />
               </folding>
@@ -356,14 +353,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="59" column="8" selection-start="2814" selection-end="2814" vertical-scroll-proportion="0.0" vertical-offset="972" max-vertical-offset="2376">
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="0" selection-start="4722" selection-end="4722" vertical-scroll-proportion="0.0" vertical-offset="1401" max-vertical-offset="2286">
+        <state line="99" column="0" selection-start="4923" selection-end="4923" vertical-scroll-proportion="0.0" vertical-offset="1455" max-vertical-offset="2340">
           <folding>
             <element signature="e#26#37#0" expanded="true" />
           </folding>
@@ -372,9 +369,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1631" selection-end="1631" vertical-scroll-proportion="0.4596623" vertical-offset="493" max-vertical-offset="1026">
+        <state line="43" column="0" selection-start="1655" selection-end="1655" vertical-scroll-proportion="0.4596623" vertical-offset="529" max-vertical-offset="1188">
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
