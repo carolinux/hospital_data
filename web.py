@@ -1,3 +1,5 @@
+import pickle
+import os
 import sys
 
 from flask import Flask, request, jsonify, render_template
@@ -47,5 +49,12 @@ if __name__ == '__main__':
         is_test = sys.argv[1] == 'test'
     else:
         is_test = False
-    cache["data"] = data.HospitalData(get_less_data=is_test)
+    # FIXME: A temporary addition to load the hospital data from a pickle
+    if not os.path.exists("hospital.pickle"):
+        hospital_data = data.HospitalData(get_less_data=is_test)
+        with open("hospital.pickle", 'wb') as f:
+            pickle.dump(hospital_data, f)
+    with open("hospital.pickle", 'rb') as f:
+        cache["data"] = pickle.load(f)
+    #cache["data"] = data.HospitalData(get_less_data=is_test)
     app.run(port=5000, debug=True, processes=1)
