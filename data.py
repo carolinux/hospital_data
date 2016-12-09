@@ -59,7 +59,7 @@ class HospitalData(object):
             ['1', '2', '3', '4', '5'])]
         survey_of_hospital[self.question_col] = survey_of_hospital[self.question_col].apply(lambda x: x.split(" - "
                                                                                                             "star")[0])
-        survey_of_hospital.columns = [self.question_col, self.rating_col+" ( 1 to 5, higher is better)"]
+        survey_of_hospital.columns = [self.question_col, self.rating_col+" ( one to five stars, higher is better)"]
 
         regular_questions = survey_of_hospital[(survey_of_hospital[self.question_col]!=self.overall_rating_question) &
                                              (survey_of_hospital[self.question_col]!='summary_star_rating') ]
@@ -67,6 +67,9 @@ class HospitalData(object):
         summary_question[self.question_col] = summary_question[self.question_col].apply(lambda x: x.upper())
         ratings = pd.concat([regular_questions, summary_question])
         ratings.columns = map(to_capitals, ratings.columns)
+        # convert to actual stars
+        new_rating_col = ratings.columns[1]
+        ratings[new_rating_col] = ratings[new_rating_col].apply(lambda x: ''.join(int(x) *['*']))
         return ratings
 
     def get_hospital_data(self, provider_id):
